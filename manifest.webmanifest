@@ -1,0 +1,16 @@
+{
+  "name": "Knee routine",
+  "short_name": "Knee routine",
+  "description": "Daily knee strength and stretch routine with looping stick-figure demos.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#1D9E75",
+  "background_color": "#14181b",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
