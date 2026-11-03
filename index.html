@@ -38,11 +38,18 @@ h1{font-size:18px;font-weight:600;margin:0 0 12px;}
 button{font:inherit;color:var(--text-primary);background:var(--surface-1);border:1px solid var(--border-strong);border-radius:8px;padding:10px;cursor:pointer;}
 button:active{transform:scale(.98)}
 .disclaimer{font-size:12px;color:var(--text-secondary);line-height:1.5;margin:20px 0 0;border-top:1px solid var(--border-strong);padding-top:12px;}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
 <main>
 <h1>Knee routine</h1>
+<nav id="tabs" style="display:flex;gap:6px;margin:0 0 14px;">
+<button data-s="routine" style="flex:1;font-size:13px;">Routine</button>
+<button data-s="knees" style="flex:1;font-size:13px;">My knees</button>
+<button data-s="3d" style="flex:1;font-size:13px;">3D knee</button>
+</nav>
+<section id="s-routine">
 <div id="lists"></div>
 <div style="background:var(--surface-1);border-radius:12px;padding:8px 0;margin-top:4px;">
 <svg width="100%" viewBox="0 0 380 200" role="img"><title>Exercise demonstration</title><desc>A stick figure performing the selected exercise or stretch on a loop</desc>
@@ -63,7 +70,185 @@ button:active{transform:scale(.98)}
 <button id="next" aria-label="Next exercise" style="flex:1">&rarr;</button>
 </div>
 <p class="disclaimer">This is a general routine, not a replacement for your physio's guidance. Keep pain at 3/10 or below. Stop if pain exceeds 3/10 or if swelling, locking or giving way appears. No deep squats until the physio says so.</p>
+</section>
+<section id="s-knees" hidden>
+<div style="display:flex;gap:8px;margin:0 0 12px;">
+<button id="kR" style="flex:1;font-size:13px;">Right knee</button>
+<button id="kL" style="flex:1;font-size:13px;">Left knee</button>
+</div>
+<p style="font-size:12px;color:var(--text-secondary);margin:0 0 10px;">MRI findings, 2 Nov 2026. <span style="color:#EF9F27;font-weight:500;">Amber</span> finding, <span style="color:#1D9E75;font-weight:500;">green</span> normal, <span style="color:#378ADD;font-weight:500;">blue</span> fluid.</p>
+<div id="kneeR"><div style="display:flex;gap:8px;margin:0 0 8px;">
+<button id="rb0" style="flex:1;font-size:13px;">Front view</button>
+<button id="rb1" style="flex:1;font-size:13px;">Side view</button>
+</div>
+
+<svg id="rv0" width="100%" viewBox="0 0 380 350" role="img"><title>Right knee, front view</title><desc>Schematic front view of a right knee with the inner side on the right, marking kneecap cartilage, cruciate ligaments, medial meniscus and inner joint space</desc>
+<text x="10" y="16" font-size="11" fill="var(--text-secondary)">Outer (lateral)</text>
+<text x="370" y="16" font-size="11" fill="var(--text-secondary)" text-anchor="end">Inner (medial)</text>
+<path d="M150,10 L230,10 L232,80 C265,95 285,125 275,152 C266,180 228,186 212,176 C206,160 204,148 190,148 C176,148 174,160 168,176 C152,186 114,180 105,152 C95,125 115,95 148,80 Z" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="1.5"/>
+<path d="M105,200 L275,200 L270,218 L238,226 L228,332 L152,332 L142,226 L110,218 Z" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="1.5"/>
+<path d="M82,222 C82,208 110,208 112,222 L108,246 L102,340 L90,340 L86,246 Z" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="1.5"/>
+<path d="M108,178 Q140,178 174,190 Q140,200 108,200 Z" fill="var(--border-strong)" fill-opacity="0.7" stroke="var(--border-strong)" stroke-width="1"/>
+<path d="M272,178 Q240,178 206,190 Q240,200 272,200 Z" fill="#EF9F27" fill-opacity="0.75" stroke="#BA7517" stroke-width="1.5"/>
+<path d="M198,198 L166,150" stroke="#1D9E75" stroke-width="6" stroke-linecap="round"/>
+<path d="M184,198 L214,150" stroke="#1D9E75" stroke-width="6" stroke-linecap="round"/>
+<path d="M168,92 Q190,80 212,92 Q217,126 190,152 Q163,126 168,92 Z" fill="var(--surface-1)" fill-opacity="0.85" stroke="var(--text-secondary)" stroke-width="1.5"/>
+<circle cx="208" cy="102" r="10" fill="#EF9F27" fill-opacity="0.4" stroke="#EF9F27" stroke-width="2"/>
+<path d="M292,178 L292,200 M288,184 L292,178 L296,184 M288,194 L292,200 L296,194" fill="none" stroke="#EF9F27" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="190" y="50" font-size="10" fill="var(--text-secondary)" text-anchor="middle">Thigh bone</text>
+<text x="190" y="282" font-size="10" fill="var(--text-secondary)" text-anchor="middle">Shin bone</text>
+<text x="190" y="115" font-size="9" fill="var(--text-secondary)" text-anchor="middle">Kneecap</text>
+<g stroke="var(--text-secondary)" stroke-width="1">
+<line x1="324" y1="73" x2="219" y2="100"/><line x1="56" y1="150" x2="176" y2="164"/><line x1="324" y1="246" x2="256" y2="194"/><line x1="329" y1="189" x2="299" y2="189"/>
+</g>
+<circle cx="335" cy="70" r="11" fill="#EF9F27"/><text x="335" y="75" font-size="13" font-weight="500" fill="#412402" text-anchor="middle">1</text>
+<circle cx="45" cy="150" r="11" fill="#1D9E75"/><text x="45" y="155" font-size="13" font-weight="500" fill="#FFFFFF" text-anchor="middle">2</text>
+<circle cx="335" cy="250" r="11" fill="#EF9F27"/><text x="335" y="255" font-size="13" font-weight="500" fill="#412402" text-anchor="middle">3</text>
+<circle cx="340" cy="189" r="11" fill="#EF9F27"/><text x="340" y="194" font-size="13" font-weight="500" fill="#412402" text-anchor="middle">4</text>
+</svg>
+
+<svg id="rv1" width="100%" viewBox="0 0 380 350" role="img" style="display:none"><title>Right knee, side view</title><desc>Schematic side view of a right knee seen from the inner side, with the front on the left, marking kneecap cartilage, cruciate ligaments, posterior horn of the medial meniscus and the joint space</desc>
+<text x="10" y="16" font-size="11" fill="var(--text-secondary)">Front</text>
+<text x="370" y="16" font-size="11" fill="var(--text-secondary)" text-anchor="end">Back</text>
+<path d="M126,86 L150,24" stroke="var(--border-strong)" stroke-width="5" stroke-linecap="round"/>
+<path d="M128,140 L142,232" stroke="var(--border-strong)" stroke-width="5" stroke-linecap="round"/>
+<path d="M165,10 L245,10 L250,75 C278,96 282,152 246,172 C222,188 176,186 160,160 C148,138 160,100 165,75 Z" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="1.5"/>
+<path d="M140,205 L272,205 L268,226 L252,242 L242,340 L172,340 L162,252 L136,240 Q124,224 140,205 Z" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="1.5"/>
+<path d="M146,204 Q150,184 178,186 Q172,196 178,204 Z" fill="var(--border-strong)" fill-opacity="0.7" stroke="var(--border-strong)" stroke-width="1"/>
+<path d="M232,204 Q228,176 264,180 Q276,192 272,204 Z" fill="#EF9F27" fill-opacity="0.8" stroke="#BA7517" stroke-width="1.5"/>
+<path d="M182,204 L236,144" stroke="#1D9E75" stroke-width="6" stroke-linecap="round"/>
+<path d="M246,204 L208,144" stroke="#1D9E75" stroke-width="6" stroke-linecap="round"/>
+<ellipse cx="126" cy="112" rx="12" ry="28" fill="var(--surface-1)" stroke="var(--text-secondary)" stroke-width="1.5"/>
+<circle cx="136" cy="112" r="10" fill="#EF9F27" fill-opacity="0.4" stroke="#EF9F27" stroke-width="2"/>
+<path d="M204,185 L204,205 M200,191 L204,185 L208,191 M200,199 L204,205 L208,199" fill="none" stroke="#EF9F27" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="205" y="50" font-size="10" fill="var(--text-secondary)" text-anchor="middle">Thigh bone</text>
+<text x="207" y="290" font-size="10" fill="var(--text-secondary)" text-anchor="middle">Shin bone</text>
+<text x="108" y="150" font-size="9" fill="var(--text-secondary)" text-anchor="end">Kneecap</text>
+<g stroke="var(--text-secondary)" stroke-width="1">
+<line x1="106" y1="66" x2="131" y2="104"/><line x1="319" y1="114" x2="224" y2="158"/><line x1="324" y1="221" x2="268" y2="196"/><line x1="71" y1="194" x2="200" y2="194"/>
+</g>
+<circle cx="95" cy="60" r="11" fill="#EF9F27"/><text x="95" y="65" font-size="13" font-weight="500" fill="#412402" text-anchor="middle">1</text>
+<circle cx="330" cy="110" r="11" fill="#1D9E75"/><text x="330" y="115" font-size="13" font-weight="500" fill="#FFFFFF" text-anchor="middle">2</text>
+<circle cx="335" cy="225" r="11" fill="#EF9F27"/><text x="335" y="230" font-size="13" font-weight="500" fill="#412402" text-anchor="middle">3</text>
+<circle cx="60" cy="194" r="11" fill="#EF9F27"/><text x="60" y="199" font-size="13" font-weight="500" fill="#412402" text-anchor="middle">4</text>
+</svg>
+
+<div style="margin:12px 0 4px;font-size:14px;line-height:1.5;">
+<p style="margin:0 0 6px;"><span style="color:#EF9F27;font-weight:500;">1</span> Kneecap cartilage, medial pole: mild chondromalacia (early softening)</p>
+<p style="margin:0 0 6px;"><span style="color:#1D9E75;font-weight:500;">2</span> ACL and PCL: normal</p>
+<p style="margin:0 0 6px;"><span style="color:#EF9F27;font-weight:500;">3</span> Medial meniscus, back part (posterior horn): grade I signal, a wear-type change, not a tear</p>
+<p style="margin:0 0 6px;"><span style="color:#EF9F27;font-weight:500;">4</span> Inner joint space: early degenerative changes</p>
+<p style="margin:8px 0 0;font-size:12px;color:var(--text-secondary);">Schematic drawing, not your actual scan. In the front view the whole inner meniscus is colored, but the grade I signal is at its back part, which the side view shows better.</p>
+</div>
+</div>
+<div id="kneeL" style="display:none"><div style="display:flex;gap:8px;margin:0 0 8px;">
+<button id="lb0" style="flex:1;font-size:13px;">Front view</button>
+<button id="lb1" style="flex:1;font-size:13px;">Side view</button>
+</div>
+
+<svg id="lv0" width="100%" viewBox="0 0 380 350" role="img"><title>Left knee, front view</title><desc>Schematic front view of a left knee with the inner side on the left, marking joint fluid, kneecap cartilage on the inner side, cruciate ligaments and both menisci</desc>
+<text x="10" y="16" font-size="11" fill="var(--text-secondary)">Inner (medial)</text>
+<text x="370" y="16" font-size="11" fill="var(--text-secondary)" text-anchor="end">Outer (lateral)</text>
+<g transform="translate(380,0) scale(-1,1)">
+<path d="M100,95 C80,140 90,200 130,206 L250,206 C290,200 300,140 280,95 C250,70 130,70 100,95 Z" fill="#378ADD" fill-opacity="0.2" stroke="#378ADD" stroke-width="1.5" stroke-dasharray="4 3"/>
+<path d="M150,10 L230,10 L232,80 C265,95 285,125 275,152 C266,180 228,186 212,176 C206,160 204,148 190,148 C176,148 174,160 168,176 C152,186 114,180 105,152 C95,125 115,95 148,80 Z" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="1.5"/>
+<path d="M105,200 L275,200 L270,218 L238,226 L228,332 L152,332 L142,226 L110,218 Z" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="1.5"/>
+<path d="M82,222 C82,208 110,208 112,222 L108,246 L102,340 L90,340 L86,246 Z" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="1.5"/>
+<path d="M108,178 Q140,178 174,190 Q140,200 108,200 Z" fill="#1D9E75" fill-opacity="0.55" stroke="#1D9E75" stroke-width="1.5"/>
+<path d="M272,178 Q240,178 206,190 Q240,200 272,200 Z" fill="#1D9E75" fill-opacity="0.55" stroke="#1D9E75" stroke-width="1.5"/>
+<path d="M198,198 L166,150" stroke="#1D9E75" stroke-width="6" stroke-linecap="round"/>
+<path d="M184,198 L214,150" stroke="#1D9E75" stroke-width="6" stroke-linecap="round"/>
+<path d="M168,92 Q190,80 212,92 Q217,126 190,152 Q163,126 168,92 Z" fill="var(--surface-1)" fill-opacity="0.85" stroke="var(--text-secondary)" stroke-width="1.5"/>
+<circle cx="208" cy="102" r="10" fill="#EF9F27" fill-opacity="0.4" stroke="#EF9F27" stroke-width="2"/>
+</g>
+<text x="190" y="50" font-size="10" fill="var(--text-secondary)" text-anchor="middle">Thigh bone</text>
+<text x="190" y="282" font-size="10" fill="var(--text-secondary)" text-anchor="middle">Shin bone</text>
+<text x="190" y="115" font-size="9" fill="var(--text-secondary)" text-anchor="middle">Kneecap</text>
+<g stroke="var(--text-secondary)" stroke-width="1">
+<line x1="324" y1="73" x2="268" y2="98"/><line x1="51" y1="120" x2="166" y2="104"/><line x1="324" y1="150" x2="206" y2="163"/><line x1="56" y1="246" x2="122" y2="196"/><line x1="324" y1="246" x2="256" y2="196"/>
+</g>
+<circle cx="335" cy="70" r="11" fill="#378ADD"/><text x="335" y="75" font-size="13" font-weight="500" fill="#FFFFFF" text-anchor="middle">1</text>
+<circle cx="40" cy="122" r="11" fill="#EF9F27"/><text x="40" y="127" font-size="13" font-weight="500" fill="#412402" text-anchor="middle">2</text>
+<circle cx="335" cy="150" r="11" fill="#1D9E75"/><text x="335" y="155" font-size="13" font-weight="500" fill="#FFFFFF" text-anchor="middle">3</text>
+<circle cx="45" cy="250" r="11" fill="#1D9E75"/><text x="45" y="255" font-size="13" font-weight="500" fill="#FFFFFF" text-anchor="middle">4</text>
+<circle cx="335" cy="250" r="11" fill="#1D9E75"/><text x="335" y="255" font-size="13" font-weight="500" fill="#FFFFFF" text-anchor="middle">4</text>
+</svg>
+
+<svg id="lv1" width="100%" viewBox="0 0 380 350" role="img" style="display:none"><title>Left knee, side view</title><desc>Schematic side view of a left knee, with the front on the left, marking joint fluid above the kneecap, kneecap cartilage, cruciate ligaments and both menisci</desc>
+<text x="10" y="16" font-size="11" fill="var(--text-secondary)">Front</text>
+<text x="370" y="16" font-size="11" fill="var(--text-secondary)" text-anchor="end">Back</text>
+<path d="M152,30 L164,14 L164,76 C158,92 146,98 138,96 C138,70 142,50 152,30 Z" fill="#378ADD" fill-opacity="0.35" stroke="#378ADD" stroke-width="1.5"/>
+<path d="M126,86 L150,24" stroke="var(--border-strong)" stroke-width="5" stroke-linecap="round"/>
+<path d="M128,140 L142,232" stroke="var(--border-strong)" stroke-width="5" stroke-linecap="round"/>
+<path d="M165,10 L245,10 L250,75 C278,96 282,152 246,172 C222,188 176,186 160,160 C148,138 160,100 165,75 Z" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="1.5"/>
+<path d="M140,205 L272,205 L268,226 L252,242 L242,340 L172,340 L162,252 L136,240 Q124,224 140,205 Z" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="1.5"/>
+<path d="M146,204 Q150,184 178,186 Q172,196 178,204 Z" fill="#1D9E75" fill-opacity="0.6" stroke="#1D9E75" stroke-width="1.5"/>
+<path d="M232,204 Q228,176 264,180 Q276,192 272,204 Z" fill="#1D9E75" fill-opacity="0.6" stroke="#1D9E75" stroke-width="1.5"/>
+<path d="M182,204 L236,144" stroke="#1D9E75" stroke-width="6" stroke-linecap="round"/>
+<path d="M246,204 L208,144" stroke="#1D9E75" stroke-width="6" stroke-linecap="round"/>
+<ellipse cx="126" cy="112" rx="12" ry="28" fill="var(--surface-1)" stroke="var(--text-secondary)" stroke-width="1.5"/>
+<circle cx="136" cy="112" r="10" fill="#EF9F27" fill-opacity="0.4" stroke="#EF9F27" stroke-width="2"/>
+<text x="205" y="50" font-size="10" fill="var(--text-secondary)" text-anchor="middle">Thigh bone</text>
+<text x="207" y="290" font-size="10" fill="var(--text-secondary)" text-anchor="middle">Shin bone</text>
+<text x="108" y="150" font-size="9" fill="var(--text-secondary)" text-anchor="end">Kneecap</text>
+<g stroke="var(--text-secondary)" stroke-width="1">
+<line x1="91" y1="38" x2="146" y2="52"/><line x1="71" y1="90" x2="130" y2="106"/><line x1="319" y1="114" x2="224" y2="158"/><line x1="71" y1="196" x2="150" y2="198"/><line x1="324" y1="221" x2="268" y2="196"/>
+</g>
+<circle cx="80" cy="35" r="11" fill="#378ADD"/><text x="80" y="40" font-size="13" font-weight="500" fill="#FFFFFF" text-anchor="middle">1</text>
+<circle cx="60" cy="88" r="11" fill="#EF9F27"/><text x="60" y="93" font-size="13" font-weight="500" fill="#412402" text-anchor="middle">2</text>
+<circle cx="330" cy="110" r="11" fill="#1D9E75"/><text x="330" y="115" font-size="13" font-weight="500" fill="#FFFFFF" text-anchor="middle">3</text>
+<circle cx="60" cy="196" r="11" fill="#1D9E75"/><text x="60" y="201" font-size="13" font-weight="500" fill="#FFFFFF" text-anchor="middle">4</text>
+<circle cx="335" cy="225" r="11" fill="#1D9E75"/><text x="335" y="230" font-size="13" font-weight="500" fill="#FFFFFF" text-anchor="middle">4</text>
+</svg>
+
+<div style="margin:12px 0 4px;font-size:14px;line-height:1.5;">
+<p style="margin:0 0 6px;"><span style="color:#378ADD;font-weight:500;">1</span> Fluid in the joint: mild effusion</p>
+<p style="margin:0 0 6px;"><span style="color:#EF9F27;font-weight:500;">2</span> Kneecap cartilage, medial wall (inner side): mild chondromalacia, early softening</p>
+<p style="margin:0 0 6px;"><span style="color:#1D9E75;font-weight:500;">3</span> ACL and PCL: normal</p>
+<p style="margin:0 0 6px;"><span style="color:#1D9E75;font-weight:500;">4</span> Inner and outer menisci: normal</p>
+<p style="margin:8px 0 0;font-size:12px;color:var(--text-secondary);">Schematic drawing, not your actual scan. In the front view your left knee's inner side is on the left. The side view uses the usual scan layout, with the front on the left.</p>
+</div>
+</div>
+<p class="disclaimer">Schematic drawings based on your MRI report, not your actual scans.</p>
+</section>
+<section id="s-3d" hidden>
+<div id="chips" style="display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px;"></div>
+<canvas id="c" style="width:100%;height:380px;display:block;touch-action:none;border-radius:12px;background:var(--surface-1);"></canvas>
+<div style="margin:10px 0 8px;min-height:64px;">
+<p id="pname" style="font-size:15px;font-weight:500;margin:0 0 2px;">Loading model</p>
+<p id="pdesc" style="font-size:13px;color:var(--text-secondary);margin:0;line-height:1.5;"></p>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;">
+<button id="bSide" style="font-size:13px;">Switch to left knee</button>
+<button id="bFind" style="font-size:13px;">Show my findings</button>
+<button id="bUndo" style="font-size:13px;">Undo last hide</button>
+<button id="bReset" style="font-size:13px;">Reset</button>
+</div>
+<p id="note" style="font-size:12px;color:var(--text-secondary);margin:8px 0 0;min-height:32px;line-height:1.5;"></p>
+
+<p class="disclaimer">A stylized teaching model, not anatomically exact.</p>
+</section>
 </main>
+<script>
+(function(){
+var secs={routine:document.getElementById("s-routine"),knees:document.getElementById("s-knees"),"3d":document.getElementById("s-3d")};
+var tb=document.querySelectorAll("#tabs button"),loaded3d=false;
+function load(src,cb){var s=document.createElement("script");s.src=src;s.onload=cb;s.onerror=function(){document.getElementById("pname").textContent="The 3D library could not load. Try again in a moment.";};document.body.appendChild(s);}
+function tab(k){
+  Object.keys(secs).forEach(function(j){secs[j].hidden=j!==k;});
+  tb.forEach(function(b){var on=b.dataset.s===k;b.style.borderColor=on?"var(--border-accent)":"";b.style.background=on?"var(--bg-accent)":"";b.style.color=on?"var(--text-accent)":"";});
+  try{localStorage.setItem("knee-tab",k);}catch(e){}
+  if(k==="3d"&&!loaded3d){loaded3d=true;load("vendor/three.min.js",function(){load("vendor/OrbitControls.js",function(){load("knee3d.js");});});}
+}
+tb.forEach(function(b){b.onclick=function(){tab(b.dataset.s);};});
+var start="routine";try{start=localStorage.getItem("knee-tab")||"routine";}catch(e){}
+tab(secs[start]?start:"routine");
+function kShow(p,i){document.getElementById(p+"v0").style.display=i===0?"block":"none";document.getElementById(p+"v1").style.display=i===1?"block":"none";[0,1].forEach(function(j){var b=document.getElementById(p+"b"+j),on=j===i;b.style.borderColor=on?"var(--border-accent)":"";b.style.background=on?"var(--bg-accent)":"";b.style.color=on?"var(--text-accent)":"";});}
+["r","l"].forEach(function(p){document.getElementById(p+"b0").onclick=function(){kShow(p,0);};document.getElementById(p+"b1").onclick=function(){kShow(p,1);};kShow(p,0);});
+function kSide(s){document.getElementById("kneeR").style.display=s==="R"?"block":"none";document.getElementById("kneeL").style.display=s==="L"?"block":"none";[["kR","R"],["kL","L"]].forEach(function(x){var b=document.getElementById(x[0]),on=x[1]===s;b.style.borderColor=on?"var(--border-accent)":"";b.style.background=on?"var(--bg-accent)":"";b.style.color=on?"var(--text-accent)":"";});}
+document.getElementById("kR").onclick=function(){kSide("R");};document.getElementById("kL").onclick=function(){kSide("L");};kSide("R");
+})();
+</script>
 <script>
 var T="var(--text-primary)",G="#1D9E75",D=Math.PI/180;
 function ik(A,B,l1,l2,s){var dx=B[0]-A[0],dy=B[1]-A[1],d=Math.min(Math.hypot(dx,dy),l1+l2-0.01),a=(l1*l1-l2*l2+d*d)/(2*d),h=Math.sqrt(Math.max(l1*l1-a*a,0)),ux=dx/d,uy=dy/d,mx=A[0]+ux*a,my=A[1]+uy*a;return [mx-s*uy*h,my+s*ux*h];}

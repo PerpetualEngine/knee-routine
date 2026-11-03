@@ -1,5 +1,5 @@
-var CACHE = "knee-routine-v1";
-var FILES = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
+var CACHE = "knee-routine-v2";
+var FILES = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./knee3d.js", "./vendor/three.min.js", "./vendor/OrbitControls.js"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(FILES); }));
