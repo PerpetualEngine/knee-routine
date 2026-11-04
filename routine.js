@@ -17,15 +17,21 @@ ex.forEach(function(e,i){var m=META[i];for(var k in m)e[k]=m[k];});
 
 var $=function(id){return document.getElementById(id);};
 /* ---------- options ---------- */
-var opt={beep:true,voice:true,learn:true,rate:0.85,vname:""};
+var opt={beep:true,voice:true,learn:true,rate:0.85,vname:"",natural:true};
 try{var so=JSON.parse(localStorage.getItem("knee-opt")||"{}");for(var k in so)if(k in opt)opt[k]=(k==="rate"?(+so[k]||0.85):k==="vname"?String(so[k]):!!so[k]);}catch(e){}
 window.kneeOpt=opt;
 function saveOpt(){try{localStorage.setItem("knee-opt",JSON.stringify(opt));}catch(e){}}
 
 /* ---------- audio ---------- */
 var AC=null;
-function audio(){try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();}catch(e){}}
-window.kneeAudio=audio;
+function audio(){unlock();try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();}catch(e){}}
+var AUD=new Audio(),unlocked=false,pend=null,MAN=null;
+AUD.preload="auto";
+try{fetch("audio/manifest.json").then(function(r){return r.json();}).then(function(a){MAN={};a.forEach(function(k){MAN[k]=1;});}).catch(function(){});}catch(e){}
+function hsh(t){var x=5381;for(var i=0;i<t.length;i++)x=((x*33)^t.charCodeAt(i))>>>0;return x.toString(16);}
+function stopAudio(){try{AUD.pause();}catch(e){}if(pend){var p=pend;pend=null;p();}}
+function unlock(){if(unlocked)return;unlocked=true;try{AUD.src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";AUD.play().catch(function(){});}catch(e){}}
+window.kneeAudio=function(){audio();unlock();};
 function beep(f,d,v){if(!opt.beep||!AC)return;try{var o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime;o.type="sine";o.frequency.value=f;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v||0.25,t+0.01);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d+0.05);}catch(e){}}
 
 /* ---------- voice ---------- */
@@ -40,19 +46,32 @@ function pickVoice(){
 function fillSel(vs){var sel=$("vsel");if(!sel)return;var cur=voice&&voice.name;sel.innerHTML="";vs.slice().sort(function(a,b){return score(b)-score(a);}).forEach(function(v,i){var o=document.createElement("option");o.value=v.name;o.textContent=(i===0?"\u2605 ":"")+v.name+" ("+v.lang+")";if(v.name===cur)o.selected=true;sel.appendChild(o);});}
 if(hasSpeech){speechSynthesis.onvoiceschanged=pickVoice;}
 function say(txt,cut){return new Promise(function(res){
-  if(!opt.voice||!hasSpeech){res();return;}
-  if(cut)speechSynthesis.cancel();
+  if(!opt.voice){res();return;}
+  if(cut){stopAudio();if(hasSpeech)speechSynthesis.cancel();}
+  var key=hsh(txt);
+  if(opt.natural&&MAN&&MAN[key]){
+    pend=res;
+    AUD.onended=function(){if(pend===res)pend=null;res();};
+    AUD.onerror=function(){if(pend===res)pend=null;if(hasSpeech)tts(txt,res);else res();};
+    AUD.src="audio/"+key+".mp3";AUD.playbackRate=Math.max(0.6,Math.min(1.5,opt.rate/0.85));AUD.preservesPitch=true;
+    AUD.play().catch(function(){if(pend===res)pend=null;if(hasSpeech)tts(txt,res);else res();});
+    return;
+  }
+  if(!hasSpeech){res();return;}
+  tts(txt,res);
+});}
+function tts(txt,res){(function(){
   var u=new SpeechSynthesisUtterance(txt),done=false,to;
   function fin(){if(!done){done=true;clearTimeout(to);res();}}
   u.lang=(voice&&voice.lang)||"en-US";if(voice)u.voice=voice;u.rate=Math.max(0.5,Math.min(1.3,opt.rate+(/^[\d\s]+$|^last one$|seconds$/i.test(txt)?0.15:0)));u.pitch=1;u.onend=fin;u.onerror=fin;
   to=setTimeout(fin,3000+txt.length*(130/opt.rate));
   speechSynthesis.speak(u);
-});}
+})();}
 function speakLong(text,guard){
   var parts=text.match(/[^.!?]+[.!?]*/g)||[text];
   return parts.reduce(function(p,s){return p.then(function(){if(guard&&guard())return;return say(s.trim()).then(function(){return new Promise(function(r){setTimeout(r,350);});});});},Promise.resolve());
 }
-function stopSpeak(){if(hasSpeech)speechSynthesis.cancel();}
+function stopSpeak(){stopAudio();if(hasSpeech)speechSynthesis.cancel();}
 window.speakLong=speakLong;window.stopSpeak=stopSpeak;window.kneeSay=say;
 
 /* ---------- clock + control ---------- */
@@ -190,7 +209,7 @@ $("next").onclick=function(){nav(1);};
 $("pp").onclick=function(){
   if(!ctl.running){session([cur]);return;}
   ctl.pause=!ctl.pause;
-  if(hasSpeech){if(ctl.pause)speechSynthesis.pause();else speechSynthesis.resume();}
+  if(hasSpeech){if(ctl.pause)speechSynthesis.pause();else speechSynthesis.resume();}try{if(ctl.pause)AUD.pause();else if(pend)AUD.play();}catch(e){}
   ui();
 };
 $("whole").onclick=function(){session(ex.map(function(e,i){return i;}));};
@@ -215,6 +234,9 @@ pickVoice();
 $("vsel").onchange=function(){opt.vname=this.value;saveOpt();pickVoice();};
 $("vrate").value=opt.rate;$("vrateo").textContent=opt.rate.toFixed(2)+"x";
 $("vrate").oninput=function(){opt.rate=+this.value;$("vrateo").textContent=opt.rate.toFixed(2)+"x";saveOpt();};
+$("vnat").onclick=function(){opt.natural=!opt.natural;saveOpt();vnatUi();};
+function vnatUi(){var b=$("vnat");b.textContent="Natural recorded voice: "+(opt.natural?"on":"off (phone voice)");mark(opt.natural,b);}
+vnatUi();
 $("vtest").onclick=function(){audio();stopSpeak();say("This is how I will sound. Breathe in, and let's begin. One. Two. Three.",true);};
 setEx(0);ui();requestAnimationFrame(frame);
 })();
