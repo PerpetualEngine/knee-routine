@@ -72,25 +72,63 @@ p=P('gl','Gastrocnemius, outer head','muscles','Outer calf muscle. Crosses behin
 B(p,[-1.9,1.5,-3.8],[-1.2,-14,-3.0],1.9,0xA84239,1,0.9);
 p=P('ta','Tibialis anterior','muscles','Shin muscle at the front of the lower leg. Lifts the foot.');
 B(p,[-1.6,-4.0,2.9],[-0.5,-18,2.5],1.3,0xB04A40,1,0.8);
+var VT={
+femur:"The femur is your thigh bone, the longest and strongest bone in the body. Its rounded lower end sits on top of the shin bone and forms the main hinge of the knee. At the front it has a shallow groove where the kneecap glides up and down every time you bend and straighten. If the kneecap does not track smoothly in that groove, the cartilage behind it takes extra pressure. That is the kind of irritation chondromalacia describes.",
+tibia:"The tibia, or shin bone, is the main weight-bearing bone of the lower leg. Its flat top, called the plateau, carries your body weight through the knee, with the two menisci sitting on it like cushions. The inner side usually takes a little more load than the outer side, which is why wear-type changes often show up on the inner side first.",
+fibula:"The fibula is the slim bone beside the shin. It carries very little body weight. Its job at the knee is to anchor the outer side ligament and the biceps femoris hamstring tendon, so think of it as a side anchor rather than a weight bearer.",
+patella:"The patella, or kneecap, is a small bone sitting inside the quadriceps tendon. It works like a pulley, giving your quads more leverage when you straighten the knee. The back of it is covered with thick cartilage that glides on the thigh bone. On your MRI, the cartilage on the inner part of the kneecap shows mild chondromalacia, which means early softening. It is mild, and it is why your physio wants strong quads and hips, and no deep squats for now, because deep bends press the kneecap hardest into its groove.",
+mm:"The menisci are two C-shaped pads of tough cartilage between the thigh bone and the shin bone. They spread the load, absorb shock and help keep the joint stable. This one is the medial meniscus, on the inner side. On your right knee, the MRI shows a grade one signal in its back part, called the posterior horn. Grade one means a change inside the tissue, usually from wear, that does not reach the surface. It is not a tear, and signals like this are common, often without symptoms. On your left knee this meniscus looks normal.",
+lm:"This is the lateral meniscus, the cushion on the outer side of the knee. It is more mobile than the inner one and is normal on both of your MRIs.",
+acl:"The anterior cruciate ligament runs from the back of the thigh bone to the front of the shin. It stops the shin sliding forward and helps control twisting. It looks normal on both of your MRIs, so the front to back stability of your knees looks fine.",
+pcl:"The posterior cruciate ligament is the stronger partner of the ACL. It crosses behind it and stops the shin sliding backward. It looks normal on both of your MRIs.",
+mcl:"The medial collateral ligament is a broad band on the inner side of the knee. It stops the knee buckling inward and works closely with the inner meniscus. It looks normal on your MRIs.",
+lcl:"The lateral collateral ligament is a thin cord on the outer side of the knee. It stops the knee bowing outward. It looks normal on your MRIs.",
+qt:"The quadriceps tendon joins the four quad muscles to the top of the kneecap. When your quads contract, this tendon pulls the kneecap upward and the knee straightens. The strength exercises in your routine train the muscles feeding this tendon.",
+pt:"The patellar tendon joins the kneecap to the shin bone just below the knee. Together with the quad tendon it passes the force of the thigh muscles down to the lower leg. Many people feel pain here in the front of the knee when it is irritated or overloaded.",
+rf:"The rectus femoris is the quad muscle in the middle of the front of the thigh. It straightens the knee and also lifts the hip, because it crosses both joints. The straight leg raise trains it well, without bending the knee.",
+vl:"The vastus lateralis is the biggest quad, on the outer side of the thigh. If it is much stronger or tighter than the inner quad, it can pull the kneecap slightly outward, which is one reason physios like to balance the quads.",
+vm:"The vastus medialis is the inner quad, and its lower fibres run close to the kneecap. They help steady the kneecap and keep it gliding in its groove, so this muscle matters a lot for chondromalacia. Your quad exercises build it.",
+vi:"The vastus intermedius is a deep quad that sits underneath the rectus femoris, right against the thigh bone. It is a pure knee straightener, and it works in every leg raise, mini squat and stair step.",
+bf:"The biceps femoris is the outer hamstring. It bends the knee and attaches near the top of the fibula. Together with the inner hamstring it helps control the knee when you slow down or land.",
+st:"The semitendinosus is the inner hamstring. It bends the knee and turns the shin inward. Keeping the hamstrings supple with the hamstring stretch helps the knee move freely.",
+gm:"This is the inner head of the gastrocnemius, the calf muscle. It starts just above the knee and runs behind it down to the heel, so it crosses the knee joint and helps control it. Calf raises and the calf stretch look after it.",
+gl:"This is the outer head of the gastrocnemius, the calf muscle. Like the inner head it crosses behind the knee, then joins the heel tendon. Strong, flexible calves absorb load with every step.",
+ta:"The tibialis anterior is the muscle along the front of your shin. It lifts the foot upward, so your toes clear the ground when you walk."
+};
+order.forEach(function(id){parts[id].v=VT[id]||parts[id].desc;});
+var FT={
+patella:{both:"The amber patch on the back of the kneecap shows where your MRI found mild chondromalacia, on the inner side."},
+mm:{R:"The amber patch at the back of this meniscus marks the grade one signal, the posterior horn, in your right knee."},
+tibia:{R:"The amber band at the inner joint line marks the early degenerative changes in your right knee's inner joint space."}
+};
 var marks=[];
-function mark(pid,x,y,z,side){var m=new THREE.Mesh(new THREE.SphereGeometry(0.55,16,12),new THREE.MeshStandardMaterial({color:0xEF9F27,emissive:0xB36B00,emissiveIntensity:0.9,roughness:0.4}));m.position.set(x,y,z);m.visible=false;m.userData.noPick=true;m.userData.side=side;parts[pid].g.add(m);marks.push(m);}
-mark('patella',0.9,1.0,2.6,'both');
-mark('mm',2.3,-1.2,-2.5,'R');
+function patch(pid,x,y,z,sx,sy,sz,color,emis,side){var m=new THREE.Mesh(new THREE.SphereGeometry(1,20,14),new THREE.MeshStandardMaterial({color:color,emissive:emis,emissiveIntensity:0.55,roughness:0.5,transparent:true,opacity:0.72,depthTest:false,depthWrite:false}));m.renderOrder=6;m.position.set(x,y,z);m.scale.set(sx,sy,sz);m.visible=false;m.userData.noPick=true;m.userData.side=side;parts[pid].g.add(m);marks.push(m);return m;}
+function blob(x,y,z,sx,sy,sz,op){var m=new THREE.Mesh(new THREE.SphereGeometry(1,28,20),new THREE.MeshStandardMaterial({color:0x1e6fe0,emissive:0x1050b8,emissiveIntensity:0.9,roughness:0.3,transparent:true,opacity:op,depthWrite:false,depthTest:false}));m.position.set(x,y,z);m.scale.set(sx,sy,sz);m.renderOrder=5;m.visible=false;m.userData.side='L';m.userData.noPick=true;knee.add(m);marks.push(m);return m;}
+var AMB=0xEF9F27,AMBE=0xB36B00;
+patch('patella',1.0,1.0,2.95,1.0,1.05,0.4,AMB,AMBE,'both');
+patch('mm',2.3,-1.2,-2.1,1.1,0.7,0.95,AMB,AMBE,'R');
+patch('tibia',4.1,-0.8,-0.3,0.5,1.1,1.6,AMB,AMBE,'R');
+blob(0,0.3,0.6,4.8,2.7,4.4,0.28);
+blob(0,4.6,2.4,2.7,2.4,1.2,0.45);
 var layers=[['muscles','Muscles'],['tendons','Tendons'],['ligaments','Ligaments'],['menisci','Menisci'],['bones','Bones']];
 var chipsEl=document.getElementById('chips'),chipBtns={};
 layers.forEach(function(l){var b=document.createElement('button');b.textContent=l[1];b.style.cssText='font-size:12px;padding:6px 10px;';b.onclick=function(){var ids=order.filter(function(id){return parts[id].layer===l[0];});var allVis=ids.every(function(id){return !parts[id].hidden;});ids.forEach(function(id){parts[id].hidden=allVis;if(allVis&&sel===id)clearSel();});if(!allVis){stack=stack.filter(function(id){return parts[id].layer!==l[0];});}refresh();};chipsEl.appendChild(b);chipBtns[l[0]]=b;});
-var sel=null,stack=[],side='R',findingsOn=false;
+var sel=null,stack=[],side='R',findingsOn=true,vOn=true;
 var nameEl=document.getElementById('pname'),descEl=document.getElementById('pdesc'),noteEl=document.getElementById('note');
 function clearSel(){if(sel){parts[sel].mats.forEach(function(m){m.emissive.setHex(0x000000);});}sel=null;}
-function setSel(id){clearSel();sel=id;parts[id].mats.forEach(function(m){m.emissive.setHex(0x1D9E75);m.emissiveIntensity=0.7;});}
+function findingFor(id){var f=FT[id];if(!f||!findingsOn)return '';return f[side]||f.both||'';}
+var vTok=0;
+function talk(text){var my=++vTok;if(window.stopSpeak)stopSpeak();if(!vOn||!window.kneeOpt||!kneeOpt.voice||!window.speakLong)return;window.kneeAudio&&kneeAudio();speakLong(text,function(){return my!==vTok;});}
+function hush(){vTok++;if(window.stopSpeak)stopSpeak();}
+function setSel(id){clearSel();sel=id;talk(parts[id].v+' '+findingFor(id));parts[id].mats.forEach(function(m){m.emissive.setHex(0x1D9E75);m.emissiveIntensity=0.7;});}
 function refresh(){
 order.forEach(function(id){parts[id].g.visible=!parts[id].hidden;});
 layers.forEach(function(l){var ids=order.filter(function(id){return parts[id].layer===l[0];});var allVis=ids.every(function(id){return !parts[id].hidden;});var b=chipBtns[l[0]];b.style.borderColor=allVis?'var(--border-accent)':'';b.style.background=allVis?'var(--bg-accent)':'';b.style.color=allVis?'var(--text-accent)':'';});
-marks.forEach(function(m){m.visible=findingsOn&&(m.userData.side==='both'||side==='R');});
+marks.forEach(function(m){m.visible=findingsOn&&(m.userData.side==='both'||m.userData.side===side);});
 if(sel){nameEl.textContent=parts[sel].name;descEl.textContent=parts[sel].desc+' Tap it again to hide it.';}else{nameEl.textContent='Tap a part to select it';descEl.textContent='Tap the selected part again to hide it and see what is underneath. Drag to rotate, pinch to zoom.';}
 var hc=order.filter(function(id){return parts[id].hidden;}).length;
 var txt=hc?hc+' hidden. Undo or Reset brings them back. ':'';
-if(findingsOn){txt+=(side==='R'?'Amber dots: kneecap cartilage and the back part of the inner meniscus. Hide the femur to see the kneecap dot.':'Amber dot: kneecap cartilage, inner side. Hide the femur to see it. The joint fluid cannot be drawn here.');}
+if(findingsOn){txt+=(side==='R'?'Amber = MRI findings in your right knee (kneecap cartilage, back of the inner meniscus, inner joint line). They glow through the tissue, and hide with the part they sit on.':'Amber = kneecap cartilage, inner side. Blue = the extra joint fluid (effusion) in your left knee. They glow through the tissue, and hide with the part they sit on.');}
 noteEl.textContent=txt;
 }
 var ray=new THREE.Raycaster(),down=null;
@@ -101,13 +139,18 @@ var r=cv.getBoundingClientRect(),v=new THREE.Vector2(((e.clientX-r.left)/r.width
 ray.setFromCamera(v,camera);
 var list=[];order.forEach(function(id){if(!parts[id].hidden){parts[id].g.children.forEach(function(c){if(c.isMesh&&!c.userData.noPick)list.push(c);});}});
 var hits=ray.intersectObjects(list,false);
-if(!hits.length){clearSel();refresh();return;}
+if(!hits.length){clearSel();hush();refresh();return;}
 var id=hits[0].object.userData.pid;
-if(sel===id){parts[id].hidden=true;stack.push(id);clearSel();}else{setSel(id);}
+if(sel===id){parts[id].hidden=true;stack.push(id);clearSel();hush();}else{setSel(id);}
 refresh();
 }
 document.getElementById('bSide').onclick=function(){side=side==='R'?'L':'R';knee.scale.x=side==='R'?1:-1;this.textContent=side==='R'?'Switch to left knee':'Switch to right knee';refresh();};
+document.getElementById('bFind').textContent='Hide my findings';
 document.getElementById('bFind').onclick=function(){findingsOn=!findingsOn;this.textContent=findingsOn?'Hide my findings':'Show my findings';refresh();};
+var bV=document.getElementById('bVoice');bV.onclick=function(){vOn=!vOn;bV.textContent=vOn?'Voice: on':'Voice: off';if(!vOn)hush();};
+var EX={R:'Your right knee. The MRI from the second of November shows three mild, early findings, drawn in amber. One: mild chondromalacia on the inner part of the back of the kneecap, which means the cartilage there has started to soften. Two: a grade one signal in the back part of the inner meniscus. That is a change inside the tissue, usually from wear, and it is not a tear. Three: early degenerative changes along the inner joint line. Your cruciate ligaments look normal. All of this is mild. Strong quads, hips and calves share the load, which takes pressure off these areas, and that is what your routine is built to do.',
+L:'Your left knee. The MRI shows mild joint effusion, which is extra fluid inside the joint, drawn in blue. It collects above and behind the kneecap. Fluid is the knee reacting to irritation, and it usually settles as the irritation calms down. There is also mild chondromalacia on the inner side of the back of the kneecap, drawn in amber. Both menisci and both cruciate ligaments look normal. Keep exercise gentle, keep pain at three out of ten or below, and tell your physio if the swelling increases.'};
+document.getElementById('bExplain').onclick=function(){if(!findingsOn){findingsOn=true;refresh();}talk(EX[side]);};
 document.getElementById('bUndo').onclick=function(){while(stack.length){var id=stack.pop();if(parts[id].hidden){parts[id].hidden=false;break;}}refresh();};
 document.getElementById('bReset').onclick=function(){order.forEach(function(id){parts[id].hidden=false;});stack=[];clearSel();refresh();};
 refresh();
