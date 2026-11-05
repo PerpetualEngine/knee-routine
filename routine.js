@@ -4,7 +4,7 @@ var META=[
 {foot:"Working foot: ankle flexed, toes pulled toward you and pointing at the ceiling. Other foot flat on the floor, knee bent.",fv:"Feet. On the leg you lift, pull your toes back toward your face so the ankle is flexed and the toes point at the ceiling, not turned outward. This helps keep the knee fully straight. Your other foot rests flat on the floor with the knee bent, to support your lower back.",each:1,unit:"leg",sets:2,rest:30,say:"Two sets of ten on each leg. Hold two seconds at the top.",v:"The straight leg raise trains your quadriceps, the big muscle on the front of your thigh that straightens the knee. Because the knee stays straight, the kneecap barely presses into the groove of the thigh bone, so this is one of the gentlest ways to build quad strength when the kneecap cartilage is sensitive. Before you lift, tighten the thigh hard, as if pushing the back of your knee into the floor. That is what switches the muscle on. Then lift slowly to the height of the other knee, hold, and lower with control. The slow lowering is where a lot of the strength is built."},
 {foot:"Feet flat, hip-width apart, toes straight ahead. Place heels so your shins are near vertical at the top. Press through the heels.",fv:"Feet. Plant both feet flat on the floor, hip-width apart, with the toes pointing straight ahead. Place the heels so that at the top your shins are close to vertical, with your knees above your ankles. Push through your heels, and keep each knee in line with your second toe, never falling inward.",each:0,sets:2,rest:30,say:"Two sets of ten. Hold two seconds at the top.",v:"The glute bridge works the gluteus maximus, your biggest hip muscle, together with the hamstrings. Strong glutes control how your thigh bone rotates, so your knee does not drift inward when you walk, climb stairs or stand on one leg. A knee that stays in line puts less uneven pressure behind the kneecap. Press through your heels, lift until your shoulders, hips and knees make one line, and do not arch your lower back."},
 {foot:"Standing foot flat, toes forward, weight even across the whole foot, knee soft. Lifting foot: toes forward, not turned up.",fv:"Feet. Stand on one foot, flat on the floor with the toes pointing forward and your weight spread evenly across the heel, the big toe and the little toe. Keep that knee soft, not locked. The lifting foot points straight forward too. If the toes turn up toward the ceiling, the front of the hip takes over from the muscle we want.",each:1,unit:"leg",sets:2,rest:30,say:"Two sets of ten on each leg.",v:"The standing side leg lift trains the gluteus medius and the other hip abductors, the muscles on the side of your hip. They keep your pelvis level every time you stand on one leg, which is every step you take. When they are weak, the thigh tends to fall inward and the knee takes extra twisting load. Stay tall, keep your toes pointing forward, and lift the leg out to the side without leaning your body."},
-{foot:"Heels stay touching and in line with your hips, knees bent about 90 degrees. Only the top knee opens.",fv:"Feet. Keep your knees bent to about ninety degrees, with your heels touching and in line with your hips. The feet are the hinge, so they stay together the whole time. Only the top knee opens, like a clamshell.",each:1,unit:"side",sets:2,rest:30,say:"Two sets of twelve on each side. Slow and controlled.",v:"The clamshell targets the deep hip rotators and the gluteus medius. These muscles turn the thigh outward and steady the hip, which supports the knee from above. Keep your feet together and your hips still so the pelvis does not roll backward, and open only the top knee. The burn on the outside of your hip is the right muscle working."},
+{foot:"Heels stay touching and in line with your hips, knees bent about 90 degrees. Only the top knee opens.",fv:"Feet. Keep your knees bent to about ninety degrees, with your heels touching and in line with your hips. The feet are the hinge, so they stay together the whole time. Only the top knee opens, like a clamshell.",each:1,unit:"side",sets:2,rest:30,say:"Two sets of twelve on each side. Slow and controlled.",v:"The clamshell targets the deep hip rotators and the gluteus medius. These muscles turn the thigh outward and steady the hip, which supports the knee from above. First, set your thigh bone. Bend your hips to about forty-five degrees, so your thighs angle forward from your body line, halfway between lying straight and sitting up. It is not ninety degrees. Research has not found one best angle between thirty and sixty degrees, so choose the one where you feel the outer hip, not the front of the thigh. Your knees bend to about ninety degrees, and your feet stay in line with your hips, behind your knees. Stack your hips one above the other, then turn the top thigh outward in the hip socket. Keep your feet together and your hips still so the pelvis does not roll backward, and open only the top knee. The burn on the outside of your hip is the right muscle working."},
 {foot:"Feet hip-width apart, toes forward or turned out slightly. Whole foot on the floor, arch lifted. Knees track over the second toe.",fv:"Feet. Stand with your feet hip-width apart, toes pointing forward or turned out slightly. Keep the whole foot on the floor, with your weight through the heels and the middle of the foot, and the arch lifted. As you bend, your knees follow the line of your second toe and do not fall inward.",each:0,sets:2,rest:45,say:"Two sets of ten, shallow bend only.",v:"The mini squat trains the quads, glutes and calves together, but only through a shallow bend of thirty to forty degrees. Pressure behind the kneecap rises as the knee bends deeper, so staying shallow lets you build strength with the least stress on the softened cartilage. Sit your hips back, keep your knees over your toes, and stay in the pain-free range. This is also the movement you need for stairs and for getting out of a chair."},
 {foot:"Feet hip-width apart, toes straight ahead. Rise over the big toe and second toe, not onto the outer edge.",fv:"Feet. Stand with your feet hip-width apart and the toes pointing straight ahead. As you rise, push up through the base of the big toe and the second toe, so your ankles stay straight and do not roll outward. Both heels rise to the same height.",each:0,sets:2,rest:30,say:"Two sets of fifteen, two seconds up and two seconds down.",v:"The calf raise strengthens the gastrocnemius and the soleus, your calf muscles. The gastrocnemius crosses behind the knee, so it helps control and protect the joint, and your calves absorb load with every step you walk. Go up for two seconds, down for two, and use the wall only for balance."},
 {foot:"Standing foot flat, toes forward, knee soft. Hold the ankle of the bent leg, heel toward your buttock.",fv:"Feet. Stand on one foot, flat on the floor with the toes pointing forward, and keep that knee slightly soft. Hold the other leg at the ankle, not the toes, and bring the heel toward your buttock. Keep the bent knee pointing straight down, close to the standing knee.",each:1,unit:"leg",sets:2,rest:10,H:30,say:"Two holds of thirty seconds on each leg.",v:"The quad stretch lengthens the muscle on the front of your thigh. Tight quads can pull on the kneecap and raise the pressure behind it, so keeping them supple is part of looking after the kneecap. Pull your heel gently toward your glute, keep your knees close together, and stand tall without arching your back. Stay below any sharp pain."},
@@ -72,6 +72,51 @@ function speakLong(text,guard){
   return parts.reduce(function(p,s){return p.then(function(){if(guard&&guard())return;return say(s.trim()).then(function(){return new Promise(function(r){setTimeout(r,350);});});});},Promise.resolve());
 }
 function stopSpeak(){stopAudio();if(hasSpeech)speechSynthesis.cancel();}
+/* ---------- lesson player: explanations with a seek bar ---------- */
+var DUR=null,lpTimer=null;
+try{fetch("audio/durations.json").then(function(r){return r.json();}).then(function(d){DUR=d;}).catch(function(){});}catch(e){}
+function fmt(s){s=Math.max(0,Math.round(s));return Math.floor(s/60)+":"+("0"+s%60).slice(-2);}
+function playClip(key,off,f){return new Promise(function(res){
+  var fin=function(){AUD.onloadedmetadata=null;if(pend===res)pend=null;res();};
+  pend=fin;
+  AUD.onended=fin;AUD.onerror=fin;
+  AUD.onloadedmetadata=function(){AUD.onloadedmetadata=null;if(off>0){try{AUD.currentTime=Math.min(off,Math.max(0,AUD.duration-0.1));}catch(e){}}};
+  AUD.src="audio/"+key+".mp3";AUD.playbackRate=f;AUD.preservesPitch=true;
+  AUD.play().catch(fin);
+});}
+function lesson(texts,guard){
+  var parts=[];texts.forEach(function(t){(t.match(/[^.!?]+[.!?]*/g)||[t]).forEach(function(s){s=s.trim();if(s)parts.push(s);});});
+  var f=Math.max(0.6,Math.min(1.5,opt.rate/0.85)),GAP=0.35;
+  var ok=opt.voice&&opt.natural&&MAN&&DUR&&parts.every(function(s){var k=hsh(s);return MAN[k]&&DUR[k];});
+  if(!ok)return texts.reduce(function(p,t){return p.then(function(){return speakLong(t,guard);});},Promise.resolve());
+  var keys=parts.map(hsh),dur=keys.map(function(k){return DUR[k]/f;}),start=[],tot=0;
+  dur.forEach(function(d){start.push(tot);tot+=d+GAP;});
+  return new Promise(function(done){
+    var box=$("lp"),bar=$("lbar"),lab=$("ltime"),run=0,idx=0,dragging=false;
+    function show(pos){pos=Math.max(0,Math.min(pos,tot));bar.value=Math.round(pos/tot*1000);lab.textContent=fmt(pos)+" / "+fmt(tot);}
+    function finish(){run++;clearInterval(lpTimer);box.hidden=true;bar.oninput=bar.onchange=null;AUD.onloadedmetadata=null;done();}
+    function go(pos){
+      var my=++run,i=0;stopAudio();
+      while(i<parts.length-1&&start[i+1]<=pos)i++;
+      var off=Math.max(0,(pos-start[i])*f);
+      (async function(){
+        for(;i<parts.length;i++){
+          if(run!==my)return;if(guard&&guard()){finish();return;}
+          idx=i;show(start[i]+off/f);
+          await playClip(keys[i],off,f);off=0;
+          if(run!==my)return;if(guard&&guard()){finish();return;}
+          await new Promise(function(r){setTimeout(r,GAP*1000);});
+        }
+        if(run===my)finish();
+      })();
+    }
+    bar.oninput=function(){dragging=true;var p=bar.value/1000*tot;lab.textContent=fmt(p)+" / "+fmt(tot);};
+    bar.onchange=function(){dragging=false;go(bar.value/1000*tot);};
+    clearInterval(lpTimer);
+    lpTimer=setInterval(function(){if(dragging)return;show(start[idx]+(AUD.currentTime||0)/f);},200);
+    box.hidden=false;show(0);go(0);
+  });
+}
 window.speakLong=speakLong;window.stopSpeak=stopSpeak;window.kneeSay=say;
 
 /* ---------- clock + control ---------- */
@@ -168,8 +213,7 @@ async function runEx(idx){
   var e=ex[idx];setEx(idx);setSeg(0,0,0);setBig(" ");setPhase("Next up");setSub(e.n);
   var sides=e.each?["right","left"]:[null];
   await S("Next: "+e.n+". "+e.say+(e.each?" Start with your right "+e.unit+".":""),true);
-  if(opt.learn&&opt.voice){ctl.talk=false;$("skiptalk").hidden=false;setPhase("Listen");await speakLong(e.v,guard);$("skiptalk").hidden=true;ctl.talk=false;if(ctl.abort)throw ctl.abort;}
-  if(opt.voice){ctl.talk=false;$("skiptalk").hidden=false;setPhase("Feet");await speakLong(e.fv,guard);$("skiptalk").hidden=true;ctl.talk=false;if(ctl.abort)throw ctl.abort;}
+  if(opt.voice){ctl.talk=false;$("skiptalk").hidden=false;setPhase(opt.learn?"Listen":"Feet");await lesson(opt.learn?[e.v,e.fv]:[e.fv],guard);$("skiptalk").hidden=true;ctl.talk=false;if(ctl.abort)throw ctl.abort;}
   await countdown(8,"Get in position",false);
   for(var s=0;s<sides.length;s++){
     if(s>0){setSeg(0,0,0);setBig(" ");setPhase("Switch sides");await S("Switch to your left "+e.unit+".",true);await countdown(10,"Switch sides",true);}
@@ -227,7 +271,7 @@ $("preview").onclick=async function(){
 $("explain").onclick=async function(){
   if(ctl.running)return;audio();var my=++talkTok;stopSpeak();
   var g=function(){return talkTok!==my;};
-  await speakLong(ex[cur].v,g);if(!g())await speakLong(ex[cur].fv,g);
+  await lesson([ex[cur].v,ex[cur].fv],g);
 };
 ["beep","voice","learn"].forEach(function(k){$("o_"+k).onclick=function(){audio();opt[k]=!opt[k];saveOpt();if(k==="voice"&&!opt.voice)stopSpeak();ui();};});
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&ctl.running)wake(true);});
