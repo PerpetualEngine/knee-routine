@@ -16,7 +16,7 @@ function info(l,off){
   if(y(1)&&y(2)&&y(3)){hard=false;why="You did the full routine 3 days in a row. Today is lighter, so the knees can adapt.";}
   else if(y(1)){hard=false;why="Yesterday was a hard day, so today is lighter.";}
   else if(hard)why="Hard day. Hard days are Monday, Wednesday and Friday, never back to back.";
-  else why="Easy day: stretches and the light circuit. Keep the knees moving.";
+  else why="Easy day: the light strength circuit. Strength is the main thing, stretches are optional.";
   return {hard:hard,why:why,name:DAYS[d]};
 }
 function today(l){return info(l,0);}
@@ -28,14 +28,14 @@ function render(){
   root.innerHTML="";
   var box=document.createElement("div");box.style.cssText="background:var(--surface-1);border-radius:12px;padding:12px;margin:0 0 12px;";
   var h=document.createElement("div");h.style.cssText="display:flex;justify-content:space-between;align-items:baseline;gap:8px;";
-  var done=hadHard(l,0),tm=info(l,1);if(done)t={hard:false,name:t.name,why:"Hard session done today. Tomorrow, "+tm.name+", is "+(tm.hard?"a hard day":"an easy day: stretches and the light circuit")+"."};
+  var done=hadHard(l,0),tm=info(l,1);if(done)t={hard:false,name:t.name,why:"Hard session done today. Tomorrow, "+tm.name+", is "+(tm.hard?"a hard day":"an easy day with the light strength circuit")+"."};
   h.innerHTML='<span style="font-weight:500;font-size:15px;">Today, '+t.name+': '+(done?"hard session done ✓":(t.hard?"hard day":"easy day"))+'</span><span style="font-size:12px;color:var(--text-secondary);">next hard day: '+nextHard(l)+'</span>';
   var p=document.createElement("p");p.style.cssText="font-size:13px;color:var(--text-secondary);margin:6px 0 10px;line-height:1.5;";p.textContent=t.why;
   var row=document.createElement("div");row.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px;";
-  row.appendChild(btn("▶ Morning: stretches\n5 exercises, about 8 min",function(){kneeStart(MORNING,{sets:1,quiet:true},"morning");},false));
   if(done){}
-  else if(t.hard)row.appendChild(btn("▶ Evening: hard day\nLevel "+lv+", "+L.txt+", 6 exercises",function(){kneeStart(HARDLIST,{sets:L.sets,reps:L.reps,slow:L.slow,quiet:true},"hard");},true));
-  else row.appendChild(btn("▶ Evening: easy circuit\n4 exercises, 2 sets of 10",function(){kneeStart(EASY,{sets:2,reps:10,quiet:true},"easy");},true));
+  else if(t.hard)row.appendChild(btn("▶ STRENGTH: hard day\nLevel "+lv+", "+L.txt+", 6 exercises",function(){kneeStart(HARDLIST,{sets:L.sets,reps:L.reps,slow:L.slow,quiet:true},"hard");},true));
+  else row.appendChild(btn("▶ STRENGTH: easy circuit\n4 exercises, 2 sets of 10",function(){kneeStart(EASY,{sets:2,reps:10,quiet:true},"easy");},true));
+  row.appendChild(btn("Optional: stretches\n5 exercises, about 8 min",function(){kneeStart(MORNING,{sets:1,quiet:true},"morning");},false));
   [].forEach.call(row.children,function(b){b.style.whiteSpace="pre-line";});
   var lvrow=document.createElement("div");lvrow.style.cssText="display:flex;align-items:center;gap:8px;font-size:13px;margin:0 0 10px;flex-wrap:wrap;";
   var lt=document.createElement("span");lt.style.flex="1";lt.textContent="Level "+lv+": "+L.txt;
@@ -48,7 +48,7 @@ function render(){
     var c=document.createElement("div");c.style.cssText="flex:1;text-align:center;font-size:11px;color:var(--text-secondary);";
     c.innerHTML='<div style="width:24px;height:24px;border-radius:50%;margin:0 auto 2px;line-height:20px;font-size:12px;border:2px solid '+(isT?'var(--border-accent)':'var(--border-strong)')+';background:'+(e.h?'#1D9E75':'transparent')+';color:'+(e.h?'#fff':'var(--text-primary)')+';">'+mark+'</div>'+"MTWTFSS".charAt(i);wk.appendChild(c);}
   var rule=document.createElement("p");rule.style.cssText="font-size:12px;color:var(--text-secondary);margin:0;line-height:1.5;";
-  rule.textContent="H = hard day, E = easy circuit, m = morning stretches. Go up a level when the last set feels easy (2 extra reps) two sessions in a row and the knee is no worse next morning. Pain 3/10 or below. Tell your physio if the left knee swells.";
+  rule.textContent="Strength is the main work (your physio's advice); stretching is a bonus. H = hard day, E = easy circuit, m = optional stretches. Go up a level when the last set feels easy (2 extra reps) two sessions in a row and the knee is no worse next morning. Pain 3/10 or below. Tell your physio if the left knee swells.";
   box.appendChild(h);box.appendChild(p);box.appendChild(row);box.appendChild(lvrow);box.appendChild(wk);box.appendChild(rule);root.appendChild(box);
 }
 render();
