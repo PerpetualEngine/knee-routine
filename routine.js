@@ -145,6 +145,7 @@ function setEx(i){
   btns.forEach(function(b,j){mark(j===cur,b);});
   if(!ctl.running){setSeg(1,1,0);setBig(" ");setPhase("Ready");setSub("");}
 }
+window.kneeStart=function(list,o,kind){if(ctl.running)return;o=o||{};ctl.sets=o.sets||0;ctl.reps=o.reps||0;ctl.slow=!!o.slow;ctl.quiet=!!o.quiet;ctl.kind=kind||null;session(list);};
 function ui(){
   var r=ctl.running;
   $("pp").textContent=r?(ctl.pause?"▶ Resume":"❚❚ Pause"):"▶ Start this exercise";
@@ -186,7 +187,7 @@ async function countdown(sec,label,every){
   beep(1300,0.25,0.3);setBig("Go");
 }
 async function doRep(e,n,total){
-  var u=e.t[0],h=e.t[1],d=e.t[2],tick=function(){beep(1400,0.03,0.07);};
+  var tt=ctl.slow?[Math.max(e.t[0],3),Math.max(e.t[1],2),3]:e.t,u=tt[0],h=tt[1],d=tt[2],tick=function(){beep(1400,0.03,0.07);};
   setBig(n+"/"+total);
   setPhase("Lift");setSeg(0,1,u);beep(880,0.14,0.3);say(n===total?"Last one":String(n),true);
   await span(u,tick);
@@ -212,15 +213,23 @@ async function doHold(e){
 async function runEx(idx){
   var e=ex[idx];setEx(idx);setSeg(0,0,0);setBig(" ");setPhase("Next up");setSub(e.n);
   var sides=e.each?["right","left"]:[null];
-  await S("Next: "+e.n+". "+e.say+(e.each?" Start with your right "+e.unit+".":""),true);
-  if(opt.voice){ctl.talk=false;$("skiptalk").hidden=false;setPhase(opt.learn?"Listen":"Feet");await lesson(opt.learn?[e.v,e.fv]:[e.fv],guard);$("skiptalk").hidden=true;ctl.talk=false;if(ctl.abort)throw ctl.abort;}
+  var NS=ctl.sets||e.sets,NR=(!e.H&&ctl.reps)?ctl.reps:e.R,custom=!!(ctl.sets||ctl.reps);
+  if(!custom){await S("Next: "+e.n+". "+e.say+(e.each?" Start with your right "+e.unit+".":""),true);}
+  else{
+    var W={1:"one",2:"two",3:"three",10:"ten",12:"twelve",15:"fifteen",30:"thirty"};
+    await S("Next: "+e.n+".",true);
+    await S(e.H?(W[NS]==="one"?"One hold of "+W[e.H]+" seconds"+(e.each?" on each "+e.unit:"")+".":e.say):(W[NS][0].toUpperCase()+W[NS].slice(1)+" "+(NS===1?"set":"sets")+" of "+W[NR]+(e.each?" on each "+e.unit:"")+"."),true);
+    if(ctl.slow&&!e.H)await S("Lower slowly, for three seconds.",true);
+    if(e.each)await S("Start with your right "+e.unit+".",true);
+  }
+  if(opt.voice){ctl.talk=false;$("skiptalk").hidden=false;setPhase(opt.learn&&!ctl.quiet?"Listen":"Feet");await lesson(opt.learn&&!ctl.quiet?[e.v,e.fv]:[e.fv],guard);$("skiptalk").hidden=true;ctl.talk=false;if(ctl.abort)throw ctl.abort;}
   await countdown(8,"Get in position",false);
   for(var s=0;s<sides.length;s++){
     if(s>0){setSeg(0,0,0);setBig(" ");setPhase("Switch sides");await S("Switch to your left "+e.unit+".",true);await countdown(10,"Switch sides",true);}
-    for(var k=1;k<=e.sets;k++){
-      setSub((sides[s]?sides[s].charAt(0).toUpperCase()+sides[s].slice(1)+" "+e.unit+" · ":"")+(e.H?"Hold ":"Set ")+k+" of "+e.sets);
-      if(e.H){await doHold(e);}else{for(var r=1;r<=e.R;r++)await doRep(e,r,e.R);}
-      if(k<e.sets){setSeg(0,0,0);setBig(" ");setPhase("Rest");await S(e.H?"Rest. Next hold coming up.":"Set done. Rest.",true);await countdown(e.rest,"Rest",false);}
+    for(var k=1;k<=NS;k++){
+      setSub((sides[s]?sides[s].charAt(0).toUpperCase()+sides[s].slice(1)+" "+e.unit+" · ":"")+(e.H?"Hold ":"Set ")+k+" of "+NS);
+      if(e.H){await doHold(e);}else{for(var r=1;r<=NR;r++)await doRep(e,r,NR);}
+      if(k<NS){setSeg(0,0,0);setBig(" ");setPhase("Rest");await S(e.H?"Rest. Next hold coming up.":"Set done. Rest.",true);await countdown(e.rest,"Rest",false);}
     }
   }
   setSeg(0,0,0);setBig("✓");setPhase("Done");setSub(e.n);
@@ -240,10 +249,11 @@ async function session(plan){
         throw a;
       }
     }
+    if(ctl.kind&&window.kneePlanDone)kneePlanDone(ctl.kind);
     setBig("✓");setPhase(plan.length>1?"Routine complete":"Done");
     await say(plan.length>1?"That's everything. Great work. Remember to note how your knees feel tomorrow.":"Nice work.",true);
   }catch(a){}
-  ctl.running=false;ctl.abort=null;ctl.pause=false;$("skiptalk").hidden=true;stopSpeak();wake(false);
+  ctl.running=false;ctl.abort=null;ctl.pause=false;ctl.sets=0;ctl.reps=0;ctl.slow=false;ctl.quiet=false;ctl.kind=null;$("skiptalk").hidden=true;stopSpeak();wake(false);
   if(ctl.after!=null){var t=ctl.after;ctl.after=null;setEx(t);}else{setEx(cur);}
   ui();
 }

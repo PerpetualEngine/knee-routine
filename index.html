@@ -51,6 +51,7 @@ button:active{transform:scale(.98)}
 <button data-s="3d" style="flex:1;font-size:13px;">3D knee</button>
 </nav>
 <section id="s-routine">
+<div id="plan"></div>
 <div id="lists"></div>
 <div style="background:var(--surface-1);border-radius:12px;padding:8px 0;margin-top:4px;">
 <svg width="100%" viewBox="0 0 380 200" role="img"><title>Exercise demonstration</title><desc>A stick figure showing the selected exercise or stretch</desc>
@@ -282,6 +283,7 @@ document.getElementById("kR").onclick=function(){kSide("R");};document.getElemen
 </script>
 <script src="exdata.js"></script>
 <script src="routine.js"></script>
+<script src="plan.js"></script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(function(){});}</script>
 </body>
 </html>

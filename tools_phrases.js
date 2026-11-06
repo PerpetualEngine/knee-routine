@@ -17,4 +17,10 @@ ctx.ex.forEach((e,i)=>{out.add('Next: '+e.n+'. '+e.say+(e.each?' Start with your
 Object.values(ctx.VT).forEach(t=>split(t).forEach(s=>out.add(s)));
 Object.values(ctx.FT).forEach(o=>Object.values(o).forEach(t=>split(t).forEach(s=>out.add(s))));
 Object.values(ctx.EX).forEach(t=>split(t).forEach(s=>out.add(s)));
+const W={1:"one",2:"two",3:"three",10:"ten",12:"twelve",15:"fifteen",30:"thirty"};
+const cap=s=>s[0].toUpperCase()+s.slice(1);
+ctx.ex.forEach(e=>{out.add('Next: '+e.n+'.');if(e.each)out.add('Start with your right '+e.unit+'.');
+ if(e.H){out.add('One hold of '+W[e.H]+' seconds'+(e.each?' on each '+e.unit:'')+'.');}
+ else[[1,10],[2,10],[3,12],[3,15]].forEach(c=>out.add(cap(W[c[0]])+' '+(c[0]===1?'set':'sets')+' of '+W[c[1]]+(e.each?' on each '+e.unit:'')+'.'));});
+out.add('Lower slowly, for three seconds.');
 console.log(JSON.stringify([...out]));
