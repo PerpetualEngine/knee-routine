@@ -74,9 +74,9 @@ function render(){
   var now=new Date(),dow=(now.getDay()+6)%7;
   for(var i=0;i<7;i++){var d=new Date(now);d.setDate(now.getDate()-dow+i);var e=l[key(d)]||{},isT=i===dow,mark=e.h?"H":e.e?"E":e.m?"m":"·";
     var c=document.createElement("div");c.style.cssText="flex:1;text-align:center;font-size:11px;color:var(--text-secondary);";
-    c.innerHTML='<div style="width:24px;height:24px;border-radius:50%;margin:0 auto 2px;line-height:20px;font-size:12px;border:2px solid '+(isT?'var(--border-accent)':'var(--border-strong)')+';background:'+(e.h?'#1D9E75':'transparent')+';color:'+(e.h?'#fff':'var(--text-primary)')+';">'+mark+'</div>'+"MTWTFSS".charAt(i);wk.appendChild(c);}
+    c.innerHTML='<div style="width:24px;height:24px;border-radius:50%;margin:0 auto 2px;line-height:20px;font-size:12px;border:2px solid '+(isT?'var(--border-accent)':'var(--border-strong)')+';background:'+(e.h?'#1D9E75':'transparent')+';color:'+(e.h?'#fff':'var(--text-primary)')+';">'+mark+'</div>'+"MTWTFSS".charAt(i);(function(dk,fut){if(fut)return;c.style.cursor="pointer";c.onclick=function(){var L2=load(),e2=L2[dk]||{};if(e2.h){delete e2.h;e2.e=1;}else if(e2.e){delete e2.e;}else{e2.h=1;}L2[dk]=e2;save(L2);render();};})(key(d),i>dow);wk.appendChild(c);}
   var rule=document.createElement("p");rule.style.cssText="font-size:12px;color:var(--text-secondary);margin:0;line-height:1.5;";
-  rule.textContent="Strength is the main work (your physio's advice); stretching is a bonus. H = hard day, E = easy circuit, m = optional stretches. Go up a level when the last set feels easy (2 extra reps) two sessions in a row and the knee is no worse next morning. Pain 3/10 or below. Tell your physio if the left knee swells.";
+  rule.textContent="Strength is the main work (your physio's advice); stretching is a bonus. Tap a day above to log it (hard, then light, then clear). H = hard day, E = easy circuit, m = optional stretches. Go up a level when the last set feels easy (2 extra reps) two sessions in a row and the knee is no worse next morning. Pain 3/10 or below. Tell your physio if the left knee swells.";
   box.appendChild(h);box.appendChild(p);box.appendChild(row);box.appendChild(lvrow);box.appendChild(my);box.appendChild(wk);box.appendChild(plan);box.appendChild(rule);root.appendChild(box);
 }
 render();
