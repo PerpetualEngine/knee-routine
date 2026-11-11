@@ -1,4 +1,4 @@
-var CACHE = "knee-routine-v12";
+var CACHE = "knee-routine-v13";
 var FILES = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./audio/manifest.json", "./audio/durations.json", "./exdata.js", "./routine.js", "./plan.js", "./knee3d.js", "./vendor/three.min.js", "./vendor/OrbitControls.js"];
 
 self.addEventListener("install", function (e) {

@@ -138,13 +138,18 @@ function setBig(t){$("big").textContent=t;}
 function setPhase(t){$("phase").textContent=t;}
 function setSub(t){$("sub").textContent=t;}
 function mark(on,b){b.style.borderColor=on?"var(--border-accent)":"";b.style.background=on?"var(--bg-accent)":"";b.style.color=on?"var(--text-accent)":"";}
+var NWS=["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"],NWT={30:"thirty",35:"thirty-five",40:"forty",45:"forty-five",50:"fifty",55:"fifty-five",60:"sixty",25:"twenty-five"};
+function nw(n){return NWT[n]||NWS[n]||String(n);}
+function CDf(){try{return (window.kneeDefaults&&window.kneeDefaults())||{};}catch(e){return {};}}
+function doseTxt(e){var c=CDf();if(!(c.sets||c.reps||c.hold))return e.p;var s=c.sets||e.sets;return e.H?(s+" holds × "+(c.hold||e.H)+" s"+(e.each?", each "+e.unit:"")):(s+" sets × "+(c.reps||e.R)+" reps"+(e.each?", each "+e.unit:""));}
 var pvTok=0,talkTok=0;
 function setEx(i){
   cur=(i+ex.length)%ex.length;pvTok++;talkTok++;if(!ctl.running)stopSpeak();
-  var e=ex[cur];$("name").textContent=e.n;$("cue").textContent=e.c;$("foot").textContent=e.foot;$("dose").textContent=e.p;$("extra").textContent=e.x;
+  var e=ex[cur];$("name").textContent=e.n;$("cue").textContent=e.c;$("foot").textContent=e.foot;$("dose").textContent=doseTxt(e);$("extra").textContent=e.x;
   btns.forEach(function(b,j){mark(j===cur,b);});
   if(!ctl.running){setSeg(1,1,0);setBig(" ");setPhase("Ready");setSub("");}
 }
+window.kneeRefresh=function(){if(!ctl.running)setEx(cur);};
 window.kneeStart=function(list,o,kind){if(ctl.running)return;o=o||{};ctl.sets=o.sets||0;ctl.reps=o.reps||0;ctl.slow=!!o.slow;ctl.quiet=!!o.quiet;ctl.kind=kind||null;session(list);};
 function ui(){
   var r=ctl.running;
@@ -196,15 +201,15 @@ async function doRep(e,n,total){
   setPhase("Lower");setSeg(1,0,d);beep(440,0.14,0.3);
   await span(d,tick);
 }
-async function doHold(e){
-  var u=e.t[0],h=e.H,d=e.t[2];
+async function doHold(e,HH){
+  var u=e.t[0],h=HH||e.H,d=e.t[2];
   setBig(" ");setPhase("Ease in");setSeg(0,1,u);beep(880,0.14,0.3);say("Ease in",true);
   await span(u);
   setPhase("Hold");setSeg(1,1,0);beep(660,0.2,0.3);
   var s=clk;
   for(var k=1;k<=h;k++){
     await until(s+k);var left=h-k;setBig(String(left));
-    if(left===20||left===10)say(left+" seconds",true);else if(left>0&&left<=5)say(String(left),true);
+    if(left===30||left===20||left===10)say(left+" seconds",true);else if(left>0&&left<=5)say(String(left),true);
     beep(left<=5?900:1400,left<=5?0.08:0.03,left<=5?0.2:0.07);
   }
   setPhase("Release");setSeg(1,0,d);beep(440,0.2,0.3);say("Release",true);
@@ -213,12 +218,12 @@ async function doHold(e){
 async function runEx(idx){
   var e=ex[idx];setEx(idx);setSeg(0,0,0);setBig(" ");setPhase("Next up");setSub(e.n);
   var sides=e.each?["right","left"]:[null];
-  var NS=ctl.sets||e.sets,NR=(!e.H&&ctl.reps)?ctl.reps:e.R,custom=!!(ctl.sets||ctl.reps);
+  var CD=CDf(),NS=ctl.sets||CD.sets||e.sets,NR=e.H?0:(ctl.reps||CD.reps||e.R),HH=e.H?(CD.hold||e.H):0,custom=!!(ctl.sets||ctl.reps||CD.sets||CD.reps||(e.H&&CD.hold));
   if(!custom){await S("Next: "+e.n+". "+e.say+(e.each?" Start with your right "+e.unit+".":""),true);}
   else{
-    var W={1:"one",2:"two",3:"three",10:"ten",12:"twelve",15:"fifteen",30:"thirty"};
+    var cap=function(s){return s.charAt(0).toUpperCase()+s.slice(1);},eachT=e.each?" on each "+e.unit:"";
     await S("Next: "+e.n+".",true);
-    await S(e.H?(W[NS]==="one"?"One hold of "+W[e.H]+" seconds"+(e.each?" on each "+e.unit:"")+".":e.say):(W[NS][0].toUpperCase()+W[NS].slice(1)+" "+(NS===1?"set":"sets")+" of "+W[NR]+(e.each?" on each "+e.unit:"")+"."),true);
+    await S(e.H?cap(nw(NS))+" "+(NS===1?"hold":"holds")+" of "+nw(HH)+" seconds"+eachT+".":cap(nw(NS))+" "+(NS===1?"set":"sets")+" of "+nw(NR)+eachT+".",true);
     if(ctl.slow&&!e.H)await S("Lower slowly, for three seconds.",true);
     if(e.each)await S("Start with your right "+e.unit+".",true);
   }
@@ -228,7 +233,7 @@ async function runEx(idx){
     if(s>0){setSeg(0,0,0);setBig(" ");setPhase("Switch sides");await S("Switch to your left "+e.unit+".",true);await countdown(10,"Switch sides",true);}
     for(var k=1;k<=NS;k++){
       setSub((sides[s]?sides[s].charAt(0).toUpperCase()+sides[s].slice(1)+" "+e.unit+" · ":"")+(e.H?"Hold ":"Set ")+k+" of "+NS);
-      if(e.H){await doHold(e);}else{for(var r=1;r<=NR;r++)await doRep(e,r,NR);}
+      if(e.H){await doHold(e,HH);}else{for(var r=1;r<=NR;r++)await doRep(e,r,NR);}
       if(k<NS){setSeg(0,0,0);setBig(" ");setPhase("Rest");await S(e.H?"Rest. Next hold coming up.":"Set done. Rest.",true);await countdown(e.rest,"Rest",false);}
     }
   }
